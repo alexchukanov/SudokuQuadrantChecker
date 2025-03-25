@@ -28,13 +28,100 @@ namespace CoderbyteTest_SudokuQuadrantChecker
 
                for (int y = 0; y < dimY; y++)
                {
-                        deskArr[x, y] = arrLine[y];                       
+                  deskArr[x, y] = arrLine[y];                       
                }
-                    x++;
+               x++;
             }
-         
-            // code goes here  
-            return null;
+
+            //finding double in the lines
+
+            Dictionary<string, int> dicLine = new Dictionary<string, int>();            
+
+            for (int i = 0; i < dimX; i++)
+            {
+                for (int j = 0; j < dimY; j++)
+                {
+                    string dig = deskArr[i, j];
+
+                    if (dig != "x")
+                    {
+                        if(dicLine.ContainsKey(deskArr[i, j]))                            
+                        {
+                            dicLine[deskArr[i, j]] += 1;
+                        }
+                        else 
+                        {
+                            dicLine.Add(deskArr[i, j], 1);
+                        }
+
+                        foreach (var item in dicLine.Keys)
+                        {
+                            if (dicLine[item] >1)
+                            {
+                                for (int z = 0; z < dimX; z++)
+                                {
+                                    if(deskArr[i, z] == item)
+                                    {
+                                        GetSubGrid(i, z);
+                                    }
+                                }
+                            }
+
+                        }
+
+
+                    }
+                }
+            }
+
+                // code goes here  
+                return null;
+        }
+
+        static int GetSubGridInd(int x, int y)        
+        {
+            int ind = 0;
+
+            if(x <= 3 && y <= 3)
+            {
+                ind = 1;
+            }
+            else if (x <= 6 && y <= 3)
+            {
+                ind = 2;
+            }
+            else if (x <= 9 && y <= 3)
+            {
+                ind = 3;
+            }
+
+            else if (x <= 3 && y <= 6)
+            {
+                ind = 4;
+            }
+            else if (x <= 6 && y <= 6)
+            {
+                ind = 5;
+            }
+            else if (x <= 9 && y <= 6)
+            {
+                ind = 6;
+            }
+
+            else if (x <= 3 && y <= 9)
+            {
+                ind = 7;
+            }
+            else if (x <= 6 && y <= 9)
+            {
+                ind = 8;
+            }
+            else if (x <= 9 && y <= 9)
+            {
+                ind = 9;
+            }
+
+            return ind;
         }
     }
 }
